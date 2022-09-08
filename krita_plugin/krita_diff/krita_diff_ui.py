@@ -313,6 +313,9 @@ class KritaSDPluginDocker(DockWidget):
         self.img2img_seed_layout.addWidget(self.img2img_seed_label)
         self.img2img_seed_layout.addWidget(self.img2img_seed)
 
+        self.img2img_inpaint_full_res = QCheckBox("Inpaint at full resolution")
+        self.img2img_inpaint_full_res.setTristate(False)
+        
         self.img2img_tiling = QCheckBox("Enable tiling mode")
         self.img2img_tiling.setTristate(False)
 
@@ -346,6 +349,7 @@ class KritaSDPluginDocker(DockWidget):
         self.img2img_layout.addLayout(self.img2img_size_layout)
         self.img2img_layout.addLayout(self.img2img_seed_layout)
         self.img2img_layout.addWidget(self.img2img_use_gfpgan)
+        self.img2img_layout.addWidget(self.img2img_inpaint_full_res)
         self.img2img_layout.addWidget(self.img2img_tiling)
         self.img2img_layout.addLayout(self.img2img_upscaler_name_layout)
         self.img2img_layout.addLayout(self.img2img_button_layout)
@@ -367,6 +371,8 @@ class KritaSDPluginDocker(DockWidget):
         self.img2img_seed.setText(script.cfg('img2img_seed', str))
         self.img2img_use_gfpgan.setCheckState(
             Qt.CheckState.Checked if script.cfg('img2img_use_gfpgan', bool) else Qt.CheckState.Unchecked)
+        self.img2img_inpaint_full_res.setCheckState(
+            Qt.CheckState.Checked if script.cfg('img2img_inpaint_full_res', bool) else Qt.CheckState.Unchecked)
         self.img2img_tiling.setCheckState(
             Qt.CheckState.Checked if script.cfg('img2img_tiling', bool) else Qt.CheckState.Unchecked)
         self.img2img_upscaler_name.addItems(upscalers[self.img2img_upscaler_name.count():])
@@ -405,6 +411,9 @@ class KritaSDPluginDocker(DockWidget):
         )
         self.img2img_use_gfpgan.toggled.connect(
             partial(script.set_cfg, "img2img_use_gfpgan")
+        )
+        self.img2img_inpaint_full_res.toggled.connect(
+            partial(script.set_cfg, "img2img_inpaint_full_res")
         )
         self.img2img_tiling.toggled.connect(
             partial(script.set_cfg, "img2img_tiling")

@@ -61,6 +61,7 @@ class Script(QObject):
         self.set_cfg('img2img_max_size', 704, if_empty)
         self.set_cfg('img2img_seed', "", if_empty)
         self.set_cfg('img2img_use_gfpgan', False, if_empty)
+        self.set_cfg('img2img_inpaint_full_res', False, if_empty)
         self.set_cfg('img2img_tiling', False, if_empty)
         self.set_cfg('img2img_upscaler_name', 0, if_empty)
 
@@ -150,7 +151,8 @@ class Script(QObject):
             "seed": self.cfg('img2img_seed', str) if not self.cfg('img2img_seed', str).isspace() else '',
             "tiling": tiling,
             "use_gfpgan": self.cfg("img2img_use_gfpgan", bool),
-            "upscaler_name": upscalers[self.cfg('img2img_upscaler_name', int)]
+            "upscaler_name": upscalers[self.cfg('img2img_upscaler_name', int)],
+            "inpaint_full_res": self.cfg("img2img_inpaint_full_res", bool)
         } if not self.cfg('just_use_yaml', bool) else {
             "src_path": path,
             "mask_path": mask_path
